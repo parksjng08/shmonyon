@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#fbf7f4">
+<title>shmonyon✨ V6 Functional Test</title>
+<style>
+*{box-sizing:border-box}:root{--ink:#3f3b4c;--muted:#85808e;--line:#ecdee4;--pink:#f4cad8;--blue:#d7e9f6;--mint:#dcefe5;--lav:#e5ddf5}
+html{background:#fff9f6}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Rounded","SF Pro Text",Arial,sans-serif;color:var(--ink);padding-bottom:98px;min-height:100vh;background:linear-gradient(90deg,#f8dfe733 1px,transparent 1px),linear-gradient(#f8dfe733 1px,transparent 1px),#fff9f6;background-size:24px 24px}
+header{padding:22px 18px 8px;max-width:700px;margin:auto}h1{font-size:29px;margin:0;font-weight:900}.sub{color:var(--muted);font-size:13px;margin-top:4px}main{max-width:700px;margin:auto;padding:8px 14px}.page{display:none}.page.active{display:block}
+.card{background:#fffffff2;border:2px solid #f0e1e6;border-radius:24px;padding:17px;margin:11px 0;box-shadow:0 7px 0 #e9dce1,0 13px 25px #76576412}.row{display:flex;justify-content:space-between;gap:12px;align-items:center}.big{font-size:29px;font-weight:900}.label{font-size:11px;color:var(--muted);font-weight:850;text-transform:uppercase;letter-spacing:.07em}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.metric{border:2px solid #eee1e6;border-radius:19px;padding:14px;min-height:82px;box-shadow:0 5px 0 #e8dce0;background:linear-gradient(145deg,#fff,#fff1f6)}.metric:nth-child(2){background:linear-gradient(145deg,#fff,#eff8fd)}.metric:nth-child(3){background:linear-gradient(145deg,#fff,#f4f0fc)}.metric:nth-child(4){background:linear-gradient(145deg,#fff,#eff8f2)}.metric b{display:block;font-size:19px;margin-top:7px}
+h2{font-size:19px;margin:4px 0 11px}.progress{height:12px;background:#f0e8eb;border-radius:99px;overflow:hidden;margin-top:10px}.bar{height:100%;background:linear-gradient(90deg,var(--pink),var(--lav),var(--blue));width:0}.item{padding:13px 0;border-bottom:1px dashed #eadde1}.item:last-child{border:0}.amount{font-weight:850}.tiny{font-size:12px;color:var(--muted);line-height:1.45}.badge{font-size:11px;font-weight:850;padding:6px 10px;border-radius:99px;background:var(--mint)}
+button,.btn{appearance:none;border:1.5px solid #dfcbd1;border-radius:14px;padding:11px 14px;font-size:14px;font-weight:800;color:#49414b;background:linear-gradient(#fff5f8,#f4c9d7);box-shadow:0 4px 0 #d7adbb,0 6px 10px #86606b18}button:active{transform:translateY(3px);box-shadow:0 1px 0 #d7adbb}button.secondary{background:linear-gradient(#fff,#f5eef1);box-shadow:0 3px 0 #ddd1d5}
+input,select{width:100%;font-size:16px;padding:12px;border:2px solid #eadde1;border-radius:14px;background:#fff;color:var(--ink);margin-top:6px;outline:none}.formrow{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:10px 0}.full{grid-column:1/-1}label{font-size:12px;font-weight:750;color:#706a76}.empty{color:var(--muted);font-size:14px;padding:9px 0}.danger{color:#9b4351}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:10;background:#fffafcef;backdrop-filter:blur(18px);border-top:2px solid #efdee4;display:flex;justify-content:center;gap:4px;padding:8px 7px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -5px 18px #76576410}nav button{background:linear-gradient(#fff,#f6edf1);color:var(--muted);font-size:11px;padding:8px 8px;min-width:62px;box-shadow:0 3px 0 #e2d3d8}nav button.active{color:var(--ink);background:linear-gradient(#fff3f7,#f3cbd8);box-shadow:0 3px 0 #d7adbb}
+.auth{margin-top:8px;padding:12px 14px;background:#fff7fa;border:2px solid #f0dfe5;border-radius:18px}.auth .row{flex-wrap:wrap}.auth button{padding:8px 11px;font-size:12px}
+@media(max-width:420px){.grid,.formrow{grid-template-columns:1fr}.formrow .full{grid-column:auto}.big{font-size:25px}nav button{min-width:0;flex:1;padding:8px 3px;font-size:10px}.card{padding:15px}}
+</style>
+
+<style id="pastel-bubble-upgrade">
+:root{
+  --ink:#50485d; --muted:#958c9e;
+  --pink:#ffdbe8; --pink-deep:#efb8cd;
+  --blue:#dff2ff; --blue-deep:#badcf1;
+  --mint:#e2f7ed; --mint-deep:#bee6d1;
+  --lav:#eee6ff; --lav-deep:#d5c6f0;
+  --yellow:#fff2c9;
+}
+body{
+  background:
+    radial-gradient(circle at 12% 9%,rgba(255,255,255,.95) 0 30px,transparent 31px),
+    radial-gradient(circle at 21% 9%,rgba(255,255,255,.9) 0 42px,transparent 43px),
+    linear-gradient(90deg,rgba(255,211,226,.24) 1px,transparent 1px),
+    linear-gradient(rgba(255,211,226,.24) 1px,transparent 1px),
+    #fff9fc;
+  background-size:auto,auto,26px 26px,26px 26px,auto;
+}
+h1{color:#54495f;text-shadow:0 3px 0 #fff,0 5px 0 #f4dbe5}
+.card{
+  border:2px solid #f5e2eb;
+  border-radius:29px;
+  box-shadow:0 8px 0 #ead9e1,0 16px 30px rgba(125,91,111,.10);
+  background:rgba(255,255,255,.95);
+}
+.metric{
+  border-radius:23px;
+  border:2px solid rgba(255,255,255,.9);
+  box-shadow:inset 0 2px 0 #fff,0 6px 0 #eadce3,0 10px 18px rgba(117,84,102,.08);
+}
+.metric:nth-child(1){background:linear-gradient(145deg,#fff,#ffe5ee)}
+.metric:nth-child(2){background:linear-gradient(145deg,#fff,#e3f4ff)}
+.metric:nth-child(3){background:linear-gradient(145deg,#fff,#eee7ff)}
+.metric:nth-child(4){background:linear-gradient(145deg,#fff,#e5f8ee)}
+button,.btn{
+  border:2px solid rgba(255,255,255,.9);
+  border-radius:18px;
+  padding:12px 15px;
+  color:#584c5b;
+  background:linear-gradient(180deg,#fff7fb 0%,#ffdbe8 68%,#f5c4d7 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.95),
+    inset 0 -2px 0 rgba(223,161,185,.20),
+    0 6px 0 #e7b7c9,
+    0 9px 15px rgba(125,83,103,.13);
+  text-shadow:0 1px 0 #fff;
+}
+button.secondary{
+  border-radius:17px;
+  background:linear-gradient(180deg,#fff 0%,#f5edff 72%,#e7dcf8 100%);
+  box-shadow:inset 0 2px 0 #fff,0 5px 0 #d9caed,0 8px 13px rgba(106,89,132,.10);
+}
+button:active,.btn:active{
+  transform:translateY(4px);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.9),0 2px 0 #e7b7c9;
+}
+input,select{
+  border-radius:17px;
+  border:2px solid #f0e2e9;
+  background:linear-gradient(180deg,#fff,#fffbfd);
+  box-shadow:inset 0 2px 5px rgba(125,87,105,.05),0 2px 0 #fff;
+}
+.badge{
+  border-radius:999px;
+  background:linear-gradient(180deg,#f2fff8,#dff5e9);
+  border:2px solid #d1ecdf;
+  box-shadow:inset 0 2px 0 #fff,0 3px 0 #c7e1d4;
+}
+.progress{height:14px;border:2px solid #f0e5e9;background:#f8f0f4}
+.bar{background:linear-gradient(90deg,#ffcfe0,#e8d8ff,#d4efff,#daf4e6)}
+.auth{
+  border-radius:24px;
+  background:linear-gradient(145deg,#fff,#fff0f6);
+  box-shadow:0 6px 0 #ead9e1,0 12px 20px rgba(125,91,111,.08);
+}
+nav{
+  border-top:2px solid #f3dfe8;
+  background:rgba(255,249,252,.94);
+}
+nav button{
+  border-radius:18px;
+  background:linear-gradient(180deg,#fff,#f4efff);
+  box-shadow:inset 0 2px 0 #fff,0 4px 0 #ded1ed;
+}
+nav button:nth-child(2){background:linear-gradient(180deg,#fff,#ffe6ef);box-shadow:inset 0 2px 0 #fff,0 4px 0 #e8c0cf}
+nav button:nth-child(3){background:linear-gradient(180deg,#fff,#e5f4ff);box-shadow:inset 0 2px 0 #fff,0 4px 0 #c8e1f1}
+nav button:nth-child(4){background:linear-gradient(180deg,#fff,#e6f7ee);box-shadow:inset 0 2px 0 #fff,0 4px 0 #cce6d8}
+nav button:nth-child(5){background:linear-gradient(180deg,#fff,#fff0ca);box-shadow:inset 0 2px 0 #fff,0 4px 0 #ebdba8}
+nav button.active{
+  transform:translateY(-2px);
+  color:#514456;
+  outline:2px solid rgba(255,255,255,.95);
+  filter:saturate(1.08);
+}
+@media(max-width:420px){
+  nav{gap:5px}
+  nav button{border-radius:16px;font-size:10px}
+}
+.calHead{display:flex;align-items:center;justify-content:space-between;gap:8px}.calGrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:10px}.dow{text-align:center;font-size:10px;color:var(--muted);font-weight:800}.day{min-height:58px;border:1.5px solid #eadde3;border-radius:14px;padding:5px;background:#fff;overflow:hidden}.day.muted{opacity:.35}.daynum{font-size:11px;font-weight:900}.dotbill{font-size:9px;line-height:1.15;margin-top:3px;padding:3px 4px;border-radius:8px;background:#fff0f5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.forecastCard{border:1.5px solid #eadde3;border-radius:17px;padding:12px;margin-top:8px;background:#fff}.good{background:#eefaf3}.warn{background:#fff6e6}.wish{border:1.5px dashed #dfc8d2;border-radius:16px;padding:11px;margin-top:8px;background:#fffafd}
+
+/* V6 cute input sheets */
+.moneyInput,.pickerInput{cursor:pointer;background:linear-gradient(180deg,#fff,#fff8fc)!important}
+.sheetBack{position:fixed;inset:0;z-index:50;background:rgba(83,61,77,.28);backdrop-filter:blur(7px);display:none;align-items:flex-end;justify-content:center;padding:14px}
+.sheetBack.show{display:flex}
+.sheet{width:min(520px,100%);background:linear-gradient(180deg,#fffafd,#fff4f9);border:2px solid #fff;border-radius:31px;padding:18px;box-shadow:0 10px 0 #e6cbd7,0 24px 55px #6f506540}
+.sheetTitle{text-align:center;font-weight:900;font-size:18px;margin:2px 0 12px}
+.moneyDisplay{font-size:31px;font-weight:900;text-align:right;padding:16px 18px;border:2px solid #f0dbe5;border-radius:22px;background:#fff;box-shadow:inset 0 3px 8px #eacfd94d;margin-bottom:13px}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.keypad button{font-size:21px;min-height:52px;border-radius:20px}
+.sheetDone{width:100%;margin-top:12px;font-size:16px}
+.wheels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.wheel{height:220px;overflow-y:auto;scroll-snap-type:y mandatory;border-radius:22px;background:linear-gradient(180deg,#fff0f6,#f5efff 50%,#ecfaf3);border:2px solid #f1e2e9;padding:84px 4px;scrollbar-width:none}
+.wheel::-webkit-scrollbar{display:none}.wheel button{display:block;width:100%;height:52px;scroll-snap-align:center;background:transparent!important;border:0!important;box-shadow:none!important;padding:0;font-size:17px;color:#9a8d9d}.wheel button.sel{font-size:20px;color:#5c4657;font-weight:900;background:#ffdbea!important;border:2px solid #fff!important;box-shadow:0 4px 0 #e9b8ca!important}
+.wheelLabels{display:grid;grid-template-columns:repeat(3,1fr);text-align:center;font-size:11px;font-weight:900;color:#8f8290;margin-bottom:7px}
+.billType{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.billType button.active{outline:3px solid #fff;filter:saturate(1.15);transform:translateY(-2px)}
+.monthEdit{margin-top:8px;padding:10px;border-radius:15px;background:#fff8fb;border:1.5px dashed #e5cdd8}
+.day.clickable{cursor:pointer}.day.clickable:active{transform:scale(.98)}
+@media(max-width:420px){.sheetBack{padding:8px}.sheet{border-radius:27px;padding:15px}.wheels{gap:5px}.wheel{height:205px}}
+
+.v7grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.v7metric{padding:12px;border-radius:18px;background:#fff9fc;border:1.5px solid #f0dce5;text-align:center}.v7metric b{display:block;font-size:17px;margin-top:4px}.paidItem{opacity:.52}.monthIncomeRow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end;margin-top:8px}@media(max-width:420px){.v7grid{grid-template-columns:1fr}}
+</style>
+
+</head>
+<body>
+<header><h1>shmonyon✨</h1><div class="sub" id="monthLabel"></div></header>
+<main>
+<div class="auth">
+ <div class="row"><div><b>Account & Cloud</b><div class="tiny">Cloud login will keep your budget synced across devices.</div></div>
+ <button class="secondary" onclick="forgotPassword()">Forgot Password?</button></div>
+</div>
+<section id="home" class="page active">
+<div class="card" id="cloudCard">
+ <div class="row"><div><h2>☁️ shmonyon✨ Cloud</h2><div class="tiny">Your budget works locally even if cloud is unavailable.</div></div><span id="cloudBadge" class="pill">Checking…</span></div>
+ <div id="cloudOut">
+  <div class="formrow"><label>Email<input id="cloudEmail" type="email" autocomplete="email"></label><label>Password<input id="cloudPassword" type="password" autocomplete="current-password"></label></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:9px"><button type="button" id="cloudSignIn">Sign In</button><button type="button" class="secondary" id="cloudSignUp">Create Account</button><button type="button" class="secondary" id="cloudForgot">Forgot Password</button></div>
+ </div>
+ <div id="cloudIn" style="display:none">
+  <div class="tiny" id="cloudUser"></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:9px"><button type="button" id="cloudLoad">Load Latest</button><button type="button" class="secondary" id="cloudSave">Save to Cloud</button><button type="button" class="secondary" id="cloudSignOut">Sign Out</button></div>
+  <div class="tiny" style="margin-top:7px">On another device: Sign in → Load Latest before editing.</div>
+ </div>
+ <div class="tiny" id="cloudStatus" style="margin-top:8px;font-weight:800"></div>
+</div>
+ <div class="card">
+  <div class="label">Money available</div><div class="big" id="available">₩0</div>
+  <div class="tiny">Income − bills paid − card payments − debit/cash spending</div>
+ </div>
+ <div class="grid">
+  <div class="metric"><span class="label">Income</span><b id="incomeMetric">₩0</b></div>
+  <div class="metric"><span class="label">Spent this month</span><b id="spentMetric">₩0</b></div>
+  <div class="metric"><span class="label">Card payments</span><b id="cardPaymentMetric">₩0</b></div>
+  <div class="metric"><span class="label">Installments left</span><b id="installLeftMetric">₩0</b></div>
+ </div>
+ <div class="card"><div class="row"><h2>Credit card exit</h2><span class="badge" id="paidPct">0% paid</span></div>
+  <div class="progress"><div class="bar" id="payoffBar"></div></div>
+  <div class="row" style="margin-top:9px"><span class="tiny">Original installment total</span><b id="originalInstall">₩0</b></div>
+  <div class="row"><span class="tiny">Remaining committed</span><b id="remainingInstall">₩0</b></div>
+ </div>
+ <div class="card"><h2>Upcoming installment months</h2><div id="forecast"></div></div>
+<div class="card"><h2>Actually Free</h2><div class="formrow"><label>Current bank balance ₩<input id="bankBalance" class="moneyInput" type="text" inputmode="none" readonly></label><label>Payday<input id="payday" type="number" min="1" max="31" inputmode="numeric"></label></div><div class="v7grid" style="margin-top:12px"><div class="v7metric"><span class="tiny">Bank balance</span><b id="vBank">₩0</b></div><div class="v7metric"><span class="tiny">Committed</span><b id="vCommitted">₩0</b></div><div class="v7metric"><span class="tiny">Actually free</span><b id="vFree">₩0</b></div></div><div id="untilPayday" class="tiny" style="margin-top:10px"></div><button class="secondary" id="saveCashSetup" style="margin-top:10px">Save balance & payday</button></div>
+<div class="card"><h2>Income by Month</h2><div class="tiny">Normal expected income is automatic. Override only months that are different.</div><div class="monthIncomeRow"><label>Month<input id="incomeMonth" class="pickerInput" type="text" inputmode="none" readonly></label><button class="secondary" id="setIncomeOverride">Set amount</button></div><div id="incomeOverrideList" style="margin-top:8px"></div></div>
+<div class="card">
+ <div class="row"><div><h2>Future Money Forecast</h2><div class="tiny">Income − bills − installment commitments</div></div><span class="badge">6 months</span></div>
+ <label style="margin-top:10px">Expected monthly income ₩<input id="expectedIncome" class="moneyInput" type="text" inputmode="none" readonly placeholder="e.g. 2300000" onchange="setExpectedIncome()"></label>
+ <div id="moneyForecast"></div>
+</div>
+<div class="card">
+ <div class="calHead"><button class="secondary" onclick="moveCal(-1)">‹</button><div style="text-align:center"><h2 id="calTitle" style="margin:0"></h2><div class="tiny" id="calTotal"></div></div><button class="secondary" onclick="moveCal(1)">›</button></div>
+ <div class="calGrid"><div class="dow">Sun</div><div class="dow">Mon</div><div class="dow">Tue</div><div class="dow">Wed</div><div class="dow">Thu</div><div class="dow">Fri</div><div class="dow">Sat</div></div>
+ <div class="calGrid" id="calendarGrid"></div>
+</div>
+ <div class="card">
+<div class="row"><h2>Next Card Payment · 15th</h2><span class="badge">2 cards</span></div>
+<div class="item"><div class="row"><div><b>NH 별다줄</b><div class="tiny">Official amount from bank app</div></div><b id="nhOfficial">Not updated</b></div></div>
+<div class="item"><div class="row"><div><b>Shinhan Mr.Life</b><div class="tiny">Official amount from bank app</div></div><b id="shinOfficial">₩940,445</b></div></div>
+<div class="tiny" style="margin-top:10px">Official bank-app amounts stay separate from shmonyon✨ estimates.</div>
+</div>
+<div class="card">
+<div class="row"><h2>Samsung Check-In</h2><span class="badge">Quick update</span></div>
+<div class="tiny">When you have your Samsung, copy the official numbers here once. Then keep using your iPhone.</div>
+<div class="formrow">
+<label>NH next payment ₩<input id="nhNext" class="moneyInput" type="text" inputmode="none" readonly></label>
+<label>NH current usage ₩<input id="nhUsage" class="moneyInput" type="text" inputmode="none" readonly></label>
+<label>Shinhan next payment ₩<input id="shinNext" class="moneyInput" type="text" inputmode="none" readonly></label>
+<label>Shinhan current usage ₩<input id="shinUsage" class="moneyInput" type="text" inputmode="none" readonly></label>
+</div>
+<button onclick="saveBankCheckin()">Save Bank Check-In</button>
+<div class="tiny" id="bankUpdated" style="margin-top:10px">Not updated yet</div>
+</div>
+<div class="card"><h2>Recent spending</h2><div id="recent"></div></div>
+</section>
+
+<section id="cards" class="page">
+ <div class="card"><div class="row"><h2>My Cards</h2><span class="badge">4 cards</span></div>
+  <div class="item"><b>NH 별다줄</b><div class="tiny">Credit · payment date 15th · cycle: previous month 2nd → current month 1st</div></div>
+  <div class="item"><b>Shinhan Mr.Life</b><div class="tiny">Credit · payment date 15th · billing cycle can be confirmed/edited later</div></div>
+  <div class="item"><b>NH Debit</b><div class="tiny">Debit card</div></div>
+  <div class="item"><b>KB Youth</b><div class="tiny">Debit card</div></div>
+ </div>
+ <div class="card"><h2>Add installment purchase</h2>
+  <div class="formrow">
+   <label class="full">Purchase name<input id="iName" placeholder="e.g. Furniture"></label>
+<label>Credit card<select id="iCard"><option>NH 별다줄</option><option>Shinhan Mr.Life</option></select></label>
+   <label>Total purchase ₩<input id="iTotal" class="moneyInput" type="text" inputmode="none" readonly></label>
+   <label>Months<input id="iMonths" class="pickerInput" type="text" inputmode="none" readonly placeholder="Choose months"></label>
+   <label>Payments already made<input id="iPaid" type="number" inputmode="numeric" min="0" value="0"></label>
+   <label>First payment month<input id="iStart" class="pickerInput" type="text" inputmode="none" readonly></label>
+  </div>
+  <button onclick="addInstallment()">Add installment</button>
+ </div>
+ <div class="card"><h2>Active installments</h2><div id="installments"></div></div>
+<div class="card">
+ <div class="row"><h2>Installment Payoff</h2><span class="badge" id="lastPayoff">Nothing active</span></div>
+ <div class="tiny">Each installment updates future forecasts automatically and disappears after its final payment.</div>
+</div>
+<div class="card"><h2>Want to Buy</h2>
+ <div class="tiny">Save an idea without counting it as real spending. Maki can show how it would affect future months.</div>
+ <div class="formrow" style="margin-top:10px">
+  <label class="full">Item<input id="wName" placeholder="e.g. New phone"></label>
+  <label>Price ₩<input id="wPrice" class="moneyInput" type="text" inputmode="none" readonly></label>
+  <label>Planned card<select id="wCard"><option>NH 별다줄</option><option>Shinhan Mr.Life</option></select></label>
+  <label>Installment months<input id="wMonths" class="pickerInput" type="text" inputmode="none" readonly placeholder="Choose months"></label>
+  <label>Safety cushion ₩<input id="wCushion" class="moneyInput" type="text" inputmode="none" readonly placeholder="300000"></label>
+ </div>
+ <button onclick="addWish()">Save Want</button>
+ <div id="wishList"></div>
+</div>
+</section>
+
+<section id="spending" class="page">
+ <div class="card"><h2>Add transaction</h2>
+  <div class="formrow">
+   <label>Description<input id="tName" placeholder="Coffee, salary, groceries…"></label>
+   <label>Amount ₩<input id="tAmount" class="moneyInput" type="text" inputmode="none" readonly></label>
+   <label>Type<select id="tType"><option value="expense">Expense</option><option value="income">Income</option><option value="cardpayment">Credit card payment</option></select></label>
+   <label>Paid with<select id="tMethod"><option>NH Debit</option><option>KB Youth Debit</option><option>NH 별다줄 Credit</option><option>Shinhan Mr.Life Credit</option><option>Cash</option><option>Bank transfer</option></select></label>
+   <label>Category<select id="tCategory"><option>Food</option><option>Shopping</option><option>Transportation</option><option>Housing</option><option>Subscription</option><option>Entertainment</option><option>Debt / Payment</option><option>Income</option><option>Other</option></select></label>
+   <label>Date<input id="tDate" type="date"></label>
+  </div>
+  <button onclick="addTransaction()">Save transaction</button>
+ </div>
+ <div class="card"><h2>Transactions</h2><div id="transactions"></div></div>
+</section>
+
+<section id="bills" class="page">
+ <div class="card"><h2>Add bill</h2>
+  <div class="formrow">
+   <label class="full">Name<input id="bName" placeholder="Rent, 관리비, phone…"></label>
+   <label>Amount / estimate ₩<input id="bAmount" class="moneyInput" type="text" inputmode="none" readonly></label>
+   <label>Due day<input id="bDay" type="number" min="1" max="31" inputmode="numeric"></label>
+   <label class="full">Bill type
+    <select id="bRecurring">
+      <option value="fixed">Fixed recurring</option>
+      <option value="variable">Variable recurring</option>
+      <option value="once">One-time</option>
+    </select>
+   </label>
+   <label class="full" id="bMonthWrap" style="display:none">One-time month<input id="bMonth" class="pickerInput" type="text" inputmode="none" readonly></label>
+  </div>
+  <div class="tiny">Fixed repeats the same amount. Variable uses this as the estimate until you enter that month's actual amount.</div>
+  <button onclick="addBill()" style="margin-top:10px">Add bill</button>
+ </div>
+ <div class="card"><h2>This month's bills</h2><div id="billList"></div></div>
+</section>
+
+<section id="reports" class="page">
+ <div class="card"><h2>This month</h2><div id="categoryReport"></div></div>
+ <div class="card"><h2>Payment method</h2><div id="methodReport"></div></div>
+</section>
+</main>
+
+<div id="moneySheet" class="sheetBack" aria-hidden="true">
+ <div class="sheet">
+  <div class="sheetTitle" id="moneyTitle">Enter Amount</div>
+  <div class="moneyDisplay" id="moneyDisplay">₩0</div>
+  <div class="keypad" id="keypad"></div>
+  <button class="sheetDone" id="moneyDone">Done ♡</button>
+ </div>
+</div>
+<div id="pickerSheet" class="sheetBack" aria-hidden="true">
+ <div class="sheet">
+  <div class="sheetTitle" id="pickerTitle">Select Date</div>
+  <div id="wheelLabels" class="wheelLabels"></div>
+  <div class="wheels" id="wheels"></div>
+  <button class="sheetDone" id="pickerDone">Confirm ♡</button>
+ </div>
+</div>
+
+<nav>
+<button class="active" data-page="home">Home</button><button data-page="cards">Cards</button><button data-page="spending">Spending</button><button data-page="bills">Bills</button><button data-page="reports">Reports</button>
+</nav>
+<script>
+const KEY='maki-budget-v1'; // keep old key so existing preview data still loads
+const now=new Date(), ym=now.toISOString().slice(0,7);
+let data=JSON.parse(localStorage.getItem(KEY)||'null')||{transactions:[],installments:[],bills:[],bankCheckin:{nhNext:0,nhUsage:0,shinNext:940445,shinUsage:583570,updated:''},expectedIncome:0,wants:[]};
+data.bankCheckin=data.bankCheckin||{nhNext:0,nhUsage:0,shinNext:940445,shinUsage:583570,updated:''};
+data.wants=data.wants||[]; data.expectedIncome=data.expectedIncome||0;
+data.bankBalance=Number(data.bankBalance)||0; data.payday=Number(data.payday)||25; data.incomeOverrides=data.incomeOverrides||{}; data.cardPaidMonths=data.cardPaidMonths||{};
+data.bills=(data.bills||[]).map(b=>{if(b.recurring==='yes')b.recurring='fixed'; if(b.recurring==='no')b.recurring='once'; b.actuals=b.actuals||{}; b.paidMonths=b.paidMonths||[]; if(b.recurring==='once'&&!b.month)b.month=ym; return b});
+let calOffset=0;
+const won=n=>'₩'+Math.round(Number(n)||0).toLocaleString('ko-KR');
+document.getElementById('monthLabel').textContent=now.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+tDate.value=now.toISOString().slice(0,10); iStart.value=ym;
+function save(){localStorage.setItem(KEY,JSON.stringify(data));render()}
+function addTransaction(){
+ const amount=+rawMoney(tAmount.value);if(!amount||!tName.value.trim())return alert('Add a description and amount.');
+ data.transactions.unshift({id:Date.now(),name:tName.value.trim(),amount,type:tType.value,method:tMethod.value,category:tCategory.value,date:tDate.value||now.toISOString().slice(0,10)});
+ tName.value='';tAmount.value='';save()
+}
+function addInstallment(){
+ const total=+rawMoney(iTotal.value),months=+iMonths.value,paid=Math.max(0,+iPaid.value||0);
+ if(!iName.value.trim()||!total||months<2)return alert('Add the purchase, total, and number of months.');
+ data.installments.push({id:Date.now(),name:iName.value.trim(),total,months,paid:Math.min(paid,months),start:iStart.value||ym,card:iCard.value});
+ iName.value='';iTotal.value='';iMonths.value='';iPaid.value=0;save()
+}
+function addBill(){
+ if(!bName.value.trim()||!+rawMoney(bAmount.value))return alert('Add the bill name and amount.');
+ const type=bRecurring.value;
+ data.bills.push({id:Date.now(),name:bName.value.trim(),amount:+rawMoney(bAmount.value),day:+bDay.value||1,recurring:type,month:type==='once'?(bMonth.value||ym):'',actuals:{},paidMonths:[]});
+ bName.value='';bAmount.value='';bDay.value='';bMonth.value='';save()
+}
+function del(kind,id){if(confirm('Delete this item?')){data[kind]=data[kind].filter(x=>x.id!==id);save()}}
+function payInstall(id,delta){let x=data.installments.find(x=>x.id===id);x.paid=Math.max(0,Math.min(x.months,x.paid+delta));save()}
+function toggleBill(id,m=ym){let b=data.bills.find(x=>x.id===id);if(!b)return;b.paidMonths=b.paidMonths||[];b.paidMonths.includes(m)?b.paidMonths=b.paidMonths.filter(x=>x!==m):b.paidMonths.push(m);save()}
+function monthAdd(s,n){let [y,m]=s.split('-').map(Number);let d=new Date(y,m-1+n,1);return d.toISOString().slice(0,7)}
+function monthlyInstall(x){return x.total/x.months}
+function saveBankCheckin(){
+ const b=data.bankCheckin;
+ if(nhNext.value!=='') b.nhNext=+rawMoney(nhNext.value);
+ if(nhUsage.value!=='') b.nhUsage=+rawMoney(nhUsage.value);
+ if(shinNext.value!=='') b.shinNext=+rawMoney(shinNext.value);
+ if(shinUsage.value!=='') b.shinUsage=+rawMoney(shinUsage.value);
+ b.updated=new Date().toISOString();
+ nhNext.value=nhUsage.value=shinNext.value=shinUsage.value='';
+ save();
+}
+
+function setExpectedIncome(){data.expectedIncome=Math.max(0,+rawMoney(expectedIncome.value)||0);save()}
+function addWish(){
+ const price=+rawMoney(wPrice.value),months=Math.max(1,+wMonths.value||1);
+ if(!wName.value.trim()||!price)return alert('Add the item and price.');
+ data.wants.push({id:Date.now(),name:wName.value.trim(),price,months,card:wCard.value,cushion:+rawMoney(wCushion.value)||0});
+ wName.value='';wPrice.value='';wMonths.value='';save()
+}
+function buyWish(id){
+ const w=data.wants.find(x=>x.id===id); if(!w)return;
+ data.installments.push({id:Date.now(),name:w.name,total:w.price,months:w.months,paid:0,start:ym,card:w.card});
+ data.wants=data.wants.filter(x=>x.id!==id); save()
+}
+function monthsBetween(a,b){let [ay,am]=a.split('-').map(Number),[by,bm]=b.split('-').map(Number);return (by-ay)*12+(bm-am)}
+function installmentForMonth(m,card){
+ let sum=0;
+ data.installments.forEach(x=>{
+  if(card&&x.card!==card)return;
+  const remaining=Math.max(0,x.months-x.paid);
+  const scheduleStart=x.paid>0?ym:(x.start||ym);
+  const idx=monthsBetween(scheduleStart,m);
+  if(idx>=0&&idx<remaining)sum+=monthlyInstall(x);
+ });
+ return sum;
+}
+function billApplies(b,m){return b.recurring==='once'?b.month===m:true}
+function billAmountForMonth(b,m){return Number((b.actuals||{})[m] ?? b.amount)||0}
+function billForMonth(m){return data.bills.filter(b=>billApplies(b,m)).reduce((a,b)=>a+billAmountForMonth(b,m),0)}
+function setBillActual(id,m){
+ const b=data.bills.find(x=>x.id===id);if(!b)return;
+ openMoneyPicker({value:billAmountForMonth(b,m),title:b.name+' · '+monthPretty(m),onDone:v=>{b.actuals=b.actuals||{};b.actuals[m]=v;save()}});
+}
+function monthPretty(m){return new Date(m+'-02').toLocaleDateString('en-US',{month:'long',year:'numeric'})}
+function incomeForMonth(m){return Number(data.incomeOverrides[m] ?? data.expectedIncome)||0}
+function cardPaid(card,m){return (data.cardPaidMonths[card]||[]).includes(m)}
+function toggleCardPaid(card,m){data.cardPaidMonths[card]=data.cardPaidMonths[card]||[];const a=data.cardPaidMonths[card],i=a.indexOf(m);if(i>=0)a.splice(i,1);else a.push(m);save()}
+function officialCardAmount(card,m){if(m!==ym)return 0;const b=data.bankCheckin||{};return card==='NH 별다줄'?(Number(b.nhNext)||0):(Number(b.shinNext)||0)}
+function cardObligation(card,m){const o=officialCardAmount(card,m);return o>0?o:installmentForMonth(m,card)}
+function committedForMonth(m){let t=billForMonth(m);['NH 별다줄','Shinhan Mr.Life'].forEach(c=>{if(!cardPaid(c,m))t+=cardObligation(c,m)});return t}
+function daysUntilPayday(){const t=new Date(),base=new Date(t.getFullYear(),t.getMonth(),t.getDate()),d=Math.min(28,Math.max(1,+data.payday||25));let p=new Date(t.getFullYear(),t.getMonth(),d);if(p<base)p=new Date(t.getFullYear(),t.getMonth()+1,d);return Math.ceil((p-base)/86400000)}
+
+function moveCal(n){calOffset+=n;renderCalendar()}
+function renderCalendar(){
+ const m=monthAdd(ym,calOffset),[yy,mm]=m.split('-').map(Number);calTitle.textContent=monthPretty(m);
+ const nh=cardObligation('NH 별다줄',m),sh=cardObligation('Shinhan Mr.Life',m),bills=billForMonth(m);calTotal.textContent='Planned obligations: '+won(nh+sh+bills);
+ const first=new Date(yy,mm-1,1).getDay(),days=new Date(yy,mm,0).getDate();let html='';for(let i=0;i<first;i++)html+='<div class="day muted"></div>';
+ for(let d=1;d<=days;d++){const db=data.bills.filter(x=>x.day===d&&billApplies(x,m));let items=db.map(x=>{const p=(x.paidMonths||[]).includes(m);return `<div class="dotbill ${p?'paidItem':''}">${esc(x.name)} ${won(billAmountForMonth(x,m))} ${p?'✓':'· Due'}</div>`}).join('');
+ if(d===15&&nh)items+=`<div class="dotbill ${cardPaid('NH 별다줄',m)?'paidItem':''}">NH ${won(nh)} ${cardPaid('NH 별다줄',m)?'✓':'· Due'}</div>`;if(d===15&&sh)items+=`<div class="dotbill ${cardPaid('Shinhan Mr.Life',m)?'paidItem':''}">Shinhan ${won(sh)} ${cardPaid('Shinhan Mr.Life',m)?'✓':'· Due'}</div>`;
+ const clk=db.length||d===15;html+=`<div class="day ${clk?'clickable':''}" ${clk?`onclick="openCalendarDay('${m}',${d})"`:''}><div class="daynum">${d}</div>${items}</div>`}calendarGrid.innerHTML=html}
+function openCalendarDay(m,d){if(d===15){const nh=cardObligation('NH 별다줄',m),sh=cardObligation('Shinhan Mr.Life',m),p=prompt(`Card payments · ${monthPretty(m)}\n1. NH ${won(nh)} ${cardPaid('NH 별다줄',m)?'PAID':'DUE'}\n2. Shinhan ${won(sh)} ${cardPaid('Shinhan Mr.Life',m)?'PAID':'DUE'}\n\nType 1 or 2 to toggle Paid/Due.`);if(p==='1'&&nh)toggleCardPaid('NH 별다줄',m);if(p==='2'&&sh)toggleCardPaid('Shinhan Mr.Life',m);return}openDayBills(m,d)}
+function openDayBills(m,d){const bs=data.bills.filter(x=>x.day===d&&billApplies(x,m));if(!bs.length)return;const names=bs.map((x,i)=>`${i+1}. ${x.name} · ${won(billAmountForMonth(x,m))} · ${(x.paidMonths||[]).includes(m)?'PAID':'DUE'}`).join('\n');const p=prompt(`Bills · ${monthPretty(m)}\n${names}\n\nType a bill number.`),x=bs[(+p)-1];if(!x)return;const a=prompt(`${x.name}\n1. Change this month's amount\n2. Mark ${(x.paidMonths||[]).includes(m)?'Due':'Paid'}\n\nType 1 or 2.`);if(a==='1')setBillActual(x.id,m);if(a==='2')toggleBill(x.id,m)}
+function render(){
+ expectedIncome.value=data.expectedIncome?moneyText(data.expectedIncome):'';
+ bankBalance.value=data.bankBalance?moneyText(data.bankBalance):'';payday.value=data.payday||25;incomeMonth.value=incomeMonth.value||ym;
+ const committed=committedForMonth(ym),freeCash=(Number(data.bankBalance)||0)-committed;vBank.textContent=won(data.bankBalance);vCommitted.textContent=won(committed);vFree.textContent=won(freeCash);
+ const dp=daysUntilPayday();untilPayday.textContent=`${dp} day${dp===1?'':'s'} until payday · ${freeCash>0&&dp?won(freeCash/dp)+' per day if spread evenly':'No free-money daily amount yet'}`;
+ incomeOverrideList.innerHTML=Object.keys(data.incomeOverrides).sort().map(m=>`<div class="tiny">${monthPretty(m)} · ${won(data.incomeOverrides[m])} <button class="secondary" onclick="delete data.incomeOverrides['${m}'];save()">Clear</button></div>`).join('')||'<div class="tiny">No month-specific overrides.</div>';
+ const future=[];
+ for(let k=0;k<6;k++){const m=monthAdd(ym,k),inc=incomeForMonth(m),cards=cardObligation('NH 별다줄',m)+cardObligation('Shinhan Mr.Life',m),bl=billForMonth(m),free=inc-cards-bl;future.push({m,inc,cards,bl,free})}
+ moneyForecast.innerHTML=future.map(f=>`<div class="forecastCard ${f.inc&&f.free>=0?'good':f.inc?'warn':''}"><div class="row"><b>${monthPretty(f.m)}</b><b>${f.inc?won(f.free)+' free':'Add income'}</b></div><div class="tiny">Income ${won(f.inc)} · Cards ${won(f.cards)} · Bills ${won(f.bl)}</div></div>`).join('');
+ let payoffMonths=data.installments.filter(x=>x.paid<x.months).map(x=>{
+ const st=x.paid>0?ym:(x.start||ym); return monthAdd(st,(x.months-x.paid)-1)
+});
+ if(payoffMonths.length){payoffMonths.sort();lastPayoff.textContent='All current installments: '+new Date(payoffMonths[payoffMonths.length-1]+'-02').toLocaleDateString('en-US',{month:'short',year:'numeric'});}else lastPayoff.textContent='Nothing active';
+ wishList.innerHTML=data.wants.length?data.wants.map(w=>{let monthly=w.price/w.months;let firstFit='';if(data.expectedIncome){for(let k=0;k<36;k++){let m=monthAdd(ym,k),free=data.expectedIncome-installmentForMonth(m)-billForMonth(m)-monthly;if(free>=w.cushion){firstFit=m;break}}}return `<div class="wish"><div class="row"><div><b>${esc(w.name)}</b><div class="tiny">${w.card} · ${won(monthly)}/month × ${w.months}</div></div><b>${won(w.price)}</b></div><div class="tiny" style="margin-top:6px">${data.expectedIncome?(firstFit?'Fits your '+won(w.cushion)+' cushion from '+new Date(firstFit+'-02').toLocaleDateString('en-US',{month:'long',year:'numeric'}):'No cushion-fit month found in next 36 months'):'Add expected income to calculate timing'}</div><div style="margin-top:8px"><button class="secondary" onclick="buyWish(${w.id})">I bought it</button> <button class="secondary" onclick="del('wants',${w.id})">Delete</button></div></div>`}).join(''):'<div class="empty">Nothing on your want-to-buy list yet.</div>';
+ renderCalendar();
+
+ const bc=data.bankCheckin||{};
+ nhOfficial.textContent=bc.nhNext?won(bc.nhNext):'Not updated';
+ shinOfficial.textContent=bc.shinNext?won(bc.shinNext):'Not updated';
+ bankUpdated.textContent=bc.updated?'Last updated: '+new Date(bc.updated).toLocaleString():'Not updated yet';
+
+ const tx=data.transactions.filter(x=>x.date?.slice(0,7)===ym);
+ const income=tx.filter(x=>x.type==='income').reduce((a,x)=>a+x.amount,0);
+ const expenses=tx.filter(x=>x.type==='expense').reduce((a,x)=>a+x.amount,0);
+ const cardPayments=tx.filter(x=>x.type==='cardpayment').reduce((a,x)=>a+x.amount,0);
+ const paidBills=data.bills.filter(b=>billApplies(b,ym)&&(b.paidMonths||[]).includes(ym)).reduce((a,b)=>a+billAmountForMonth(b,ym),0);
+ // available excludes credit purchases because they do not leave bank cash now.
+ const cashExpenses=tx.filter(x=>x.type==='expense'&&!String(x.method).includes('Credit')).reduce((a,x)=>a+x.amount,0);
+ available.textContent=won(income-cashExpenses-cardPayments-paidBills);
+ incomeMetric.textContent=won(income);spentMetric.textContent=won(expenses);cardPaymentMetric.textContent=won(cardPayments);
+ const orig=data.installments.reduce((a,x)=>a+x.total,0);
+ const rem=data.installments.reduce((a,x)=>a+monthlyInstall(x)*(x.months-x.paid),0);
+ installLeftMetric.textContent=won(rem);originalInstall.textContent=won(orig);remainingInstall.textContent=won(rem);
+ const pct=orig?Math.round((orig-rem)/orig*100):0;paidPct.textContent=pct+'% paid';payoffBar.style.width=pct+'%';
+ installments.innerHTML=data.installments.length?data.installments.map(x=>`<div class="item"><div class="row"><div><b>${esc(x.name)}</b><div class="tiny">${x.card||'Credit card'} · ${x.paid} / ${x.months} paid · ${won(monthlyInstall(x))}/month · payoff ${new Date(monthAdd(x.paid>0?ym:(x.start||ym),(x.months-x.paid)-1)+'-02').toLocaleDateString('en-US',{month:'short',year:'numeric'})}</div></div><span class="amount">${won(monthlyInstall(x)*(x.months-x.paid))} left</span></div><div style="margin-top:8px"><button class="secondary" onclick="payInstall(${x.id},1)">Mark payment made</button> <button class="secondary" onclick="payInstall(${x.id},-1)">Undo</button> <button class="secondary danger" onclick="del('installments',${x.id})">Delete</button></div></div>`).join(''):'<div class="empty">No installment purchases yet 🎉</div>';
+ let forecasts=[];
+ for(let k=0;k<6;k++){let m=monthAdd(ym,k),sum=installmentForMonth(m);forecasts.push([m,sum])}
+ forecast.innerHTML=forecasts.map(([m,s])=>`<div class="row item"><span>${new Date(m+'-02').toLocaleDateString('en-US',{month:'long',year:'numeric'})}</span><b>${won(s)}</b></div>`).join('');
+ transactions.innerHTML=data.transactions.length?data.transactions.slice(0,60).map(x=>`<div class="row item"><div><b>${esc(x.name)}</b><div class="tiny">${x.date} · ${x.category} · ${x.type==='income'?'Income':x.type==='cardpayment'?'Card payment':x.method}</div></div><div><span class="amount">${x.type==='income'?'+':'−'}${won(x.amount)}</span> <button class="secondary" onclick="del('transactions',${x.id})">×</button></div></div>`).join(''):'<div class="empty">No transactions yet.</div>';
+ recent.innerHTML=tx.length?tx.slice(0,5).map(x=>`<div class="row item"><span>${esc(x.name)}</span><b>${x.type==='income'?'+':'−'}${won(x.amount)}</b></div>`).join(''):'<div class="empty">Nothing logged this month yet.</div>';
+ billList.innerHTML=data.bills.length?data.bills.filter(b=>billApplies(b,ym)).map(b=>{let p=(b.paidMonths||[]).includes(ym),amt=billAmountForMonth(b,ym),type=b.recurring==='fixed'?'Fixed recurring':b.recurring==='variable'?'Variable recurring':'One-time';return `<div class="item"><div class="row"><div><b>${esc(b.name)}</b><div class="tiny">Due day ${b.day} · ${type}</div></div><b>${won(amt)}</b></div>${b.recurring==='variable'?`<div class="monthEdit"><div class="tiny">This month's amount can be different from the estimate.</div><button class="secondary" onclick="setBillActual(${b.id},'${ym}')">Change ${monthPretty(ym)} amount</button></div>`:''}<div style="margin-top:8px"><button class="secondary" onclick="toggleBill(${b.id})">${p?'Paid ✓':'Mark paid'}</button> <button class="secondary" onclick="del('bills',${b.id})">Delete</button></div></div>`}).join(''):'<div class="empty">No bills for this month yet.</div>';
+ const cats={};tx.filter(x=>x.type==='expense').forEach(x=>cats[x.category]=(cats[x.category]||0)+x.amount);
+ categoryReport.innerHTML=Object.keys(cats).length?Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="row item"><span>${k}</span><b>${won(v)}</b></div>`).join(''):'<div class="empty">Add spending to see a breakdown.</div>';
+ const methods={};tx.filter(x=>x.type==='expense').forEach(x=>methods[x.method]=(methods[x.method]||0)+x.amount);
+ methodReport.innerHTML=Object.keys(methods).length?Object.entries(methods).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="row item"><span>${k}</span><b>${won(v)}</b></div>`).join(''):'<div class="empty">No spending yet.</div>';
+}
+
+
+let moneyTarget=null,moneyCallback=null,moneyDigits='';
+function rawMoney(v){return String(v??'').replace(/[^\d]/g,'')}
+function moneyText(v){const n=Number(rawMoney(v)||0);return n?n.toLocaleString('ko-KR'):''}
+function openMoneyPicker(opts){
+ moneyTarget=opts.target||null;moneyCallback=opts.onDone||null;moneyDigits=rawMoney(opts.value ?? (moneyTarget?moneyTarget.value:''));
+ moneyTitle.textContent=opts.title||'Enter Amount';updateMoneyDisplay();moneySheet.classList.add('show');moneySheet.setAttribute('aria-hidden','false');
+}
+function updateMoneyDisplay(){moneyDisplay.textContent='₩'+(Number(moneyDigits||0)).toLocaleString('ko-KR')}
+function closeMoney(saveIt){
+ if(saveIt){const v=Number(moneyDigits||0);if(moneyTarget)moneyTarget.value=v?moneyText(v):'';if(moneyCallback)moneyCallback(v)}
+ moneySheet.classList.remove('show');moneyTarget=null;moneyCallback=null;
+}
+['1','2','3','4','5','6','7','8','9','00','0','⌫'].forEach(k=>{let b=document.createElement('button');b.type='button';b.textContent=k;b.addEventListener('click',()=>{if(k==='⌫')moneyDigits=moneyDigits.slice(0,-1);else if(moneyDigits.length<12)moneyDigits+=(k==='00'&&!moneyDigits?'0':k);updateMoneyDisplay()});keypad.appendChild(b)});
+moneyDone.addEventListener('click',()=>closeMoney(true));moneySheet.addEventListener('click',e=>{if(e.target===moneySheet)closeMoney(false)});
+document.querySelectorAll('.moneyInput').forEach(el=>el.addEventListener('click',()=>openMoneyPicker({target:el,title:(el.closest('label')?.childNodes[0]?.textContent||'Enter Amount').trim()})));
+
+let pickerMode='',pickerTarget=null,pickerState={};
+function wheelCol(values,key,selected){
+ const col=document.createElement('div');col.className='wheel';
+ values.forEach(v=>{const b=document.createElement('button');b.type='button';b.textContent=v.label??v;b.dataset.value=v.value??v;if(String(b.dataset.value)===String(selected))b.classList.add('sel');b.addEventListener('click',()=>{pickerState[key]=b.dataset.value;col.querySelectorAll('button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');b.scrollIntoView({block:'center',behavior:'smooth'})});col.appendChild(b)});
+ setTimeout(()=>col.querySelector('.sel')?.scrollIntoView({block:'center'}),20);return col
+}
+function openMonthPicker(target,fullDate=false){
+ pickerTarget=target;pickerMode=fullDate?'date':'month';pickerTitle.textContent=fullDate?'Select Date':'Select Month';
+ const base=(target.value||ym+(fullDate?'-01':''));const parts=base.split('-');pickerState={year:+parts[0]||now.getFullYear(),month:+parts[1]||now.getMonth()+1,day:+parts[2]||1};
+ wheels.innerHTML='';wheelLabels.innerHTML=fullDate?'<span>Month</span><span>Day</span><span>Year</span>':'<span>Month</span><span>Year</span>';
+ const months=Array.from({length:12},(_,i)=>({value:i+1,label:new Date(2026,i,1).toLocaleDateString('en-US',{month:'short'})}));
+ const years=Array.from({length:11},(_,i)=>now.getFullYear()-2+i);
+ if(fullDate){wheels.style.gridTemplateColumns='repeat(3,1fr)';wheels.append(wheelCol(months,'month',pickerState.month),wheelCol(Array.from({length:31},(_,i)=>i+1),'day',pickerState.day),wheelCol(years,'year',pickerState.year))}
+ else{wheels.style.gridTemplateColumns='repeat(2,1fr)';wheelLabels.style.gridTemplateColumns='repeat(2,1fr)';wheels.append(wheelCol(months,'month',pickerState.month),wheelCol(years,'year',pickerState.year))}
+ pickerSheet.classList.add('show');
+}
+function openInstallPicker(target){
+ pickerTarget=target;pickerMode='install';pickerTitle.textContent='Select Installment Period';wheelLabels.innerHTML='<span>Months</span>';wheelLabels.style.gridTemplateColumns='1fr';wheels.innerHTML='';wheels.style.gridTemplateColumns='1fr';pickerState={months:+target.value||12};
+ wheels.append(wheelCol([2,3,4,5,6,9,10,12,18,24,36],'months',pickerState.months));pickerSheet.classList.add('show')
+}
+pickerDone.addEventListener('click',()=>{if(!pickerTarget)return;
+ if(pickerMode==='install')pickerTarget.value=pickerState.months;
+ else{const y=String(pickerState.year),m=String(pickerState.month).padStart(2,'0');pickerTarget.value=pickerMode==='date'?`${y}-${m}-${String(pickerState.day).padStart(2,'0')}`:`${y}-${m}`}
+ pickerSheet.classList.remove('show');pickerTarget=null;
+});
+pickerSheet.addEventListener('click',e=>{if(e.target===pickerSheet){pickerSheet.classList.remove('show');pickerTarget=null}});
+iMonths.addEventListener('click',()=>openInstallPicker(iMonths));wMonths.addEventListener('click',()=>openInstallPicker(wMonths));iStart.addEventListener('click',()=>openMonthPicker(iStart));bMonth.addEventListener('click',()=>openMonthPicker(bMonth));
+bRecurring.addEventListener('change',()=>{bMonthWrap.style.display=bRecurring.value==='once'?'block':'none';if(bRecurring.value==='once'&&!bMonth.value)bMonth.value=ym});
+
+function forgotPassword(){alert("Password reset is included in the design. When we connect this version to Supabase cloud login, this button will send the reset email to your account.");}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.page).classList.add('active');b.classList.add('active');scrollTo(0,0)});
+incomeMonth.addEventListener('click',()=>openMonthPicker(incomeMonth));
+saveCashSetup.addEventListener('click',()=>{data.bankBalance=Number(rawMoney(bankBalance.value))||0;data.payday=Math.min(31,Math.max(1,+payday.value||25));save()});
+setIncomeOverride.addEventListener('click',()=>{const m=incomeMonth.value||ym;openMoneyPicker({value:data.incomeOverrides[m]??incomeForMonth(m),title:'Income · '+monthPretty(m),onDone:v=>{data.incomeOverrides[m]=v;save()}})});
+
+bMonthWrap.style.display=bRecurring.value==='once'?'block':'none';
+render();
+</script>
+
+<script>
+(function(){
+ const URL="https://qrdcemvkdcemkladbmhn.supabase.co", KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyZGNlbXZrZGNlbWtsYWRibWhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY1NDcxNjQsImV4cCI6MjEwMjEyMzE2NH0.5G1uXz7KlR1NO24SfOFF3ZnJw7B9EqsQmWYnVK5t8QY";
+ let sb=null, session=null;
+ const $=id=>document.getElementById(id);
+ const msg=(t,bad)=>{$('cloudStatus').textContent=t||'';$('cloudStatus').style.color=bad?'#a4495c':'';};
+ function ui(){$('cloudOut').style.display=session?'none':'';$('cloudIn').style.display=session?'':'none';$('cloudBadge').textContent=session?'Signed in':(sb?'Ready':'Local only');$('cloudUser').textContent=session?'Signed in as '+session.user.email:'';}
+ async function refresh(){if(!sb){ui();return}const r=await sb.auth.getSession();session=r.data.session||null;ui();}
+ async function signIn(){if(!sb)return msg('Cloud is unavailable in this preview. The rest of shmonyon still works.',true);const email=$('cloudEmail').value.trim(),password=$('cloudPassword').value;if(!email||!password)return msg('Enter email and password.',true);const r=await sb.auth.signInWithPassword({email,password});if(r.error)return msg(r.error.message,true);$('cloudPassword').value='';await refresh();msg('Signed in · Load Latest before editing on this device.');}
+ async function signUp(){if(!sb)return msg('Cloud is unavailable in this preview.',true);const email=$('cloudEmail').value.trim(),password=$('cloudPassword').value;if(!email||password.length<6)return msg('Use an email and a password of at least 6 characters.',true);const r=await sb.auth.signUp({email,password});if(r.error)return msg(r.error.message,true);await refresh();msg(r.data.session?'Account created ✓':'Account created · check your email if confirmation is required.');}
+ async function forgot(){if(!sb)return msg('Cloud is unavailable in this preview.',true);const email=$('cloudEmail').value.trim();if(!email)return msg('Enter your email first.',true);const opt=location.protocol==='https:'?{redirectTo:location.origin+location.pathname}:undefined;const r=await sb.auth.resetPasswordForEmail(email,opt);msg(r.error?r.error.message:'Password-reset email sent ✓',!!r.error);}
+ async function load(){if(!session)return msg('Sign in first.',true);const r=await sb.from('shmonyon_data').select('data,updated_at').eq('user_id',session.user.id).order('updated_at',{ascending:false}).limit(1).maybeSingle();if(r.error)return msg(r.error.message,true);if(!r.data)return msg('No cloud save yet · local data is unchanged.');if(!confirm('Replace this device’s current data with the latest cloud save?'))return msg('Load cancelled.');window.data=r.data.data;data=r.data.data;localStorage.setItem('maki-budget-v1',JSON.stringify(data));render();msg('Loaded latest cloud data ✓');}
+ async function saveCloud(){if(!session)return msg('Sign in first.',true);msg('Saving…');const uid=session.user.id,q=await sb.from('shmonyon_data').select('id').eq('user_id',uid).limit(1).maybeSingle();if(q.error)return msg(q.error.message,true);const r=q.data?await sb.from('shmonyon_data').update({data:data,updated_at:new Date().toISOString()}).eq('id',q.data.id):await sb.from('shmonyon_data').insert({user_id:uid,data:data});msg(r.error?r.error.message:'Saved to cloud ✓',!!r.error);}
+ async function signOut(){if(sb)await sb.auth.signOut();session=null;ui();msg('Signed out · local data remains on this device.');}
+ $('cloudSignIn').onclick=signIn;$('cloudSignUp').onclick=signUp;$('cloudForgot').onclick=forgot;$('cloudLoad').onclick=load;$('cloudSave').onclick=saveCloud;$('cloudSignOut').onclick=signOut;
+ ui(); msg('Loading cloud…');
+ const sc=document.createElement('script');sc.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';sc.async=true;
+ sc.onload=async()=>{try{sb=window.supabase.createClient(URL,KEY);sb.auth.onAuthStateChange(()=>setTimeout(refresh,0));await refresh();msg(session?'Signed in · Load Latest before editing.':'Cloud ready ✓');}catch(e){msg('Cloud could not start. Local features still work.',true)}};
+ sc.onerror=()=>{msg(location.protocol==='file:'?'Local preview: cloud may be blocked here. Normal budget features still work.':'Cloud library could not load. Check internet.',true);ui();};
+ document.head.appendChild(sc);
+})();
+</script>
+
+</body></html>
