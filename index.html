@@ -179,7 +179,11 @@ nav button.active{
   <div class="row"><span class="tiny">Remaining committed</span><b id="remainingInstall">₩0</b></div>
  </div>
  <div class="card"><h2>Upcoming installment months</h2><div id="forecast"></div></div>
-<div class="card"><h2>Actually Free</h2><div class="formrow"><label>Current bank balance ₩<input id="bankBalance" class="moneyInput" type="text" inputmode="none" readonly></label><label>Payday<input id="payday" type="number" min="1" max="31" inputmode="numeric"></label></div><div class="v7grid" style="margin-top:12px"><div class="v7metric"><span class="tiny">Bank balance</span><b id="vBank">₩0</b></div><div class="v7metric"><span class="tiny">Committed</span><b id="vCommitted">₩0</b></div><div class="v7metric"><span class="tiny">Actually free</span><b id="vFree">₩0</b></div></div><div id="untilPayday" class="tiny" style="margin-top:10px"></div><button class="secondary" id="saveCashSetup" style="margin-top:10px">Save balance & payday</button></div>
+<div class="card"><h2>My Bank Money</h2>
+<div class="formrow"><label>NH balance ₩<input id="nhBalance" class="moneyInput" type="text" inputmode="none" readonly></label><label>KB balance ₩<input id="kbBalance" class="moneyInput" type="text" inputmode="none" readonly></label><label>Payday<input id="payday" type="number" min="1" max="31" inputmode="numeric"></label></div>
+<div class="v7grid" style="margin-top:12px"><div class="v7metric"><span class="tiny">NH</span><b id="vNH">₩0</b></div><div class="v7metric"><span class="tiny">KB</span><b id="vKB">₩0</b></div><div class="v7metric"><span class="tiny">Total cash</span><b id="vBank">₩0</b></div></div>
+<div class="v7grid" style="margin-top:8px"><div class="v7metric"><span class="tiny">Still committed</span><b id="vCommitted">₩0</b></div><div class="v7metric"><span class="tiny">Actually free</span><b id="vFree">₩0</b></div><div class="v7metric"><span class="tiny">Until payday</span><b id="vDaily">—</b></div></div>
+<div id="untilPayday" class="tiny" style="margin-top:10px"></div><button class="secondary" id="saveCashSetup" style="margin-top:10px">Save balances & payday</button></div>
 <div class="card"><h2>Income by Month</h2><div class="tiny">Normal expected income is automatic. Override only months that are different.</div><div class="monthIncomeRow"><label>Month<input id="incomeMonth" class="pickerInput" type="text" inputmode="none" readonly></label><button class="secondary" id="setIncomeOverride">Set amount</button></div><div id="incomeOverrideList" style="margin-top:8px"></div></div>
 <div class="card">
  <div class="row"><div><h2>Future Money Forecast</h2><div class="tiny">Income − bills − installment commitments</div></div><span class="badge">6 months</span></div>
@@ -213,7 +217,8 @@ nav button.active{
 </section>
 
 <section id="cards" class="page">
- <div class="card"><div class="row"><h2>My Cards</h2><span class="badge">4 cards</span></div>
+ <div class="card"><h2>Card Payment Accounts</h2><div class="formrow"><label>NH 별다줄 paid from<select id="nhCardAccount"><option value="NH">NH</option><option value="KB">KB</option></select></label><label>Shinhan Mr.Life paid from<select id="shinCardAccount"><option value="NH">NH</option><option value="KB">KB</option></select></label></div><div class="tiny">Marking a card bill Paid subtracts it from this bank account.</div><button class="secondary" id="saveCardAccounts" style="margin-top:9px">Save payment accounts</button></div>
+<div class="card"><div class="row"><h2>My Cards</h2><span class="badge">4 cards</span></div>
   <div class="item"><b>NH 별다줄</b><div class="tiny">Credit · payment date 15th · cycle: previous month 2nd → current month 1st</div></div>
   <div class="item"><b>Shinhan Mr.Life</b><div class="tiny">Credit · payment date 15th · billing cycle can be confirmed/edited later</div></div>
   <div class="item"><b>NH Debit</b><div class="tiny">Debit card</div></div>
@@ -254,8 +259,9 @@ nav button.active{
   <div class="formrow">
    <label>Description<input id="tName" placeholder="Coffee, salary, groceries…"></label>
    <label>Amount ₩<input id="tAmount" class="moneyInput" type="text" inputmode="none" readonly></label>
-   <label>Type<select id="tType"><option value="expense">Expense</option><option value="income">Income</option><option value="cardpayment">Credit card payment</option></select></label>
-   <label>Paid with<select id="tMethod"><option>NH Debit</option><option>KB Youth Debit</option><option>NH 별다줄 Credit</option><option>Shinhan Mr.Life Credit</option><option>Cash</option><option>Bank transfer</option></select></label>
+   <label>Type<select id="tType"><option value="expense">Expense</option><option value="income">Income</option><option value="refund">Refund</option><option value="transfer">Transfer between my banks</option><option value="cardpayment">Credit card payment</option></select></label>
+   <label>Paid with / account<select id="tMethod"><option>NH Debit</option><option>KB Youth Debit</option><option>NH 별다줄 Credit</option><option>Shinhan Mr.Life Credit</option><option>Cash</option><option>NH Bank</option><option>KB Bank</option></select></label>
+   <label id="tToWrap" style="display:none">Transfer to<select id="tTo"><option>KB Bank</option><option>NH Bank</option></select></label>
    <label>Category<select id="tCategory"><option>Food</option><option>Shopping</option><option>Transportation</option><option>Housing</option><option>Subscription</option><option>Entertainment</option><option>Debt / Payment</option><option>Income</option><option>Other</option></select></label>
    <label>Date<input id="tDate" type="date"></label>
   </div>
@@ -277,7 +283,7 @@ nav button.active{
       <option value="once">One-time</option>
     </select>
    </label>
-   <label class="full" id="bMonthWrap" style="display:none">One-time month<input id="bMonth" class="pickerInput" type="text" inputmode="none" readonly></label>
+   <label class="full" id="bMonthWrap" style="display:none">One-time month<input id="bMonth" class="pickerInput" type="text" inputmode="none" readonly></label><label class="full">Paid from<select id="bAccount"><option value="NH">NH</option><option value="KB">KB</option></select></label>
   </div>
   <div class="tiny">Fixed repeats the same amount. Variable uses this as the estimate until you enter that month's actual amount.</div>
   <button onclick="addBill()" style="margin-top:10px">Add bill</button>
@@ -317,16 +323,29 @@ const now=new Date(), ym=now.toISOString().slice(0,7);
 let data=JSON.parse(localStorage.getItem(KEY)||'null')||{transactions:[],installments:[],bills:[],bankCheckin:{nhNext:0,nhUsage:0,shinNext:940445,shinUsage:583570,updated:''},expectedIncome:0,wants:[]};
 data.bankCheckin=data.bankCheckin||{nhNext:0,nhUsage:0,shinNext:940445,shinUsage:583570,updated:''};
 data.wants=data.wants||[]; data.expectedIncome=data.expectedIncome||0;
-data.bankBalance=Number(data.bankBalance)||0; data.payday=Number(data.payday)||25; data.incomeOverrides=data.incomeOverrides||{}; data.cardPaidMonths=data.cardPaidMonths||{};
+data.accounts=data.accounts||{NH:0,KB:0};if(!Number(data.accounts.NH)&&!Number(data.accounts.KB)&&Number(data.bankBalance))data.accounts.NH=Number(data.bankBalance);data.accounts.NH=Number(data.accounts.NH)||0;data.accounts.KB=Number(data.accounts.KB)||0;
+data.payday=Number(data.payday)||25;data.incomeOverrides=data.incomeOverrides||{};data.cardPaidMonths=data.cardPaidMonths||{};data.cardPaymentAccounts=data.cardPaymentAccounts||{'NH 별다줄':'NH','Shinhan Mr.Life':'NH'};data.accountEvents=data.accountEvents||[];
 data.bills=(data.bills||[]).map(b=>{if(b.recurring==='yes')b.recurring='fixed'; if(b.recurring==='no')b.recurring='once'; b.actuals=b.actuals||{}; b.paidMonths=b.paidMonths||[]; if(b.recurring==='once'&&!b.month)b.month=ym; return b});
 let calOffset=0;
 const won=n=>'₩'+Math.round(Number(n)||0).toLocaleString('ko-KR');
 document.getElementById('monthLabel').textContent=now.toLocaleDateString('en-US',{month:'long',year:'numeric'});
 tDate.value=now.toISOString().slice(0,10); iStart.value=ym;
 function save(){localStorage.setItem(KEY,JSON.stringify(data));render()}
+function accountForMethod(m){if(m==='NH Debit'||m==='NH Bank')return 'NH';if(m==='KB Youth Debit'||m==='KB Bank')return 'KB';return ''}
+function changeAccount(a,delta){if(a)data.accounts[a]=Math.max(0,(Number(data.accounts[a])||0)+Number(delta||0))}
+function totalCash(){return (Number(data.accounts.NH)||0)+(Number(data.accounts.KB)||0)}
+function eventKey(kind,id,m){return kind+':'+id+':'+m}
+function hasAccountEvent(k){return data.accountEvents.some(e=>e.key===k)}
+function applyAccountEvent(k,a,d){if(hasAccountEvent(k))return;changeAccount(a,d);data.accountEvents.push({key:k,account:a,delta:d})}
+function reverseAccountEvent(k){const e=data.accountEvents.find(x=>x.key===k);if(!e)return;changeAccount(e.account,-e.delta);data.accountEvents=data.accountEvents.filter(x=>x.key!==k)}
+
 function addTransaction(){
  const amount=+rawMoney(tAmount.value);if(!amount||!tName.value.trim())return alert('Add a description and amount.');
- data.transactions.unshift({id:Date.now(),name:tName.value.trim(),amount,type:tType.value,method:tMethod.value,category:tCategory.value,date:tDate.value||now.toISOString().slice(0,10)});
+ const type=tType.value,method=tMethod.value,id=Date.now(),from=accountForMethod(method),to=tTo.value==='NH Bank'?'NH':tTo.value==='KB Bank'?'KB':'';
+ if(type==='transfer'){if(!from||!to||from===to)return alert('Choose two different bank accounts.');changeAccount(from,-amount);changeAccount(to,amount)}
+ else if(type==='income'||type==='refund'){changeAccount(from,amount)}
+ else if(type==='expense'||type==='cardpayment'){changeAccount(from,-amount)}
+ data.transactions.unshift({id,name:tName.value.trim(),amount,type,method,toAccount:to,category:tCategory.value,date:tDate.value||now.toISOString().slice(0,10)});
  tName.value='';tAmount.value='';save()
 }
 function addInstallment(){
@@ -338,12 +357,12 @@ function addInstallment(){
 function addBill(){
  if(!bName.value.trim()||!+rawMoney(bAmount.value))return alert('Add the bill name and amount.');
  const type=bRecurring.value;
- data.bills.push({id:Date.now(),name:bName.value.trim(),amount:+rawMoney(bAmount.value),day:+bDay.value||1,recurring:type,month:type==='once'?(bMonth.value||ym):'',actuals:{},paidMonths:[]});
+ data.bills.push({id:Date.now(),name:bName.value.trim(),amount:+rawMoney(bAmount.value),day:+bDay.value||1,recurring:type,month:type==='once'?(bMonth.value||ym):'',account:bAccount.value||'NH',actuals:{},paidMonths:[]});
  bName.value='';bAmount.value='';bDay.value='';bMonth.value='';save()
 }
-function del(kind,id){if(confirm('Delete this item?')){data[kind]=data[kind].filter(x=>x.id!==id);save()}}
+function del(kind,id){if(!confirm('Delete this item?'))return;if(kind==='transactions'){const x=data.transactions.find(v=>v.id===id);if(x){const a=accountForMethod(x.method),to=x.toAccount;if(x.type==='transfer'){changeAccount(a,x.amount);changeAccount(to,-x.amount)}else if(x.type==='income'||x.type==='refund')changeAccount(a,-x.amount);else if(x.type==='expense'||x.type==='cardpayment')changeAccount(a,x.amount)}}data[kind]=data[kind].filter(x=>x.id!==id);save()}
 function payInstall(id,delta){let x=data.installments.find(x=>x.id===id);x.paid=Math.max(0,Math.min(x.months,x.paid+delta));save()}
-function toggleBill(id,m=ym){let b=data.bills.find(x=>x.id===id);if(!b)return;b.paidMonths=b.paidMonths||[];b.paidMonths.includes(m)?b.paidMonths=b.paidMonths.filter(x=>x!==m):b.paidMonths.push(m);save()}
+function toggleBill(id,m=ym){let b=data.bills.find(x=>x.id===id);if(!b)return;b.paidMonths=b.paidMonths||[];const k=eventKey('bill',id,m),paid=b.paidMonths.includes(m),amt=billAmountForMonth(b,m),acct=b.account||'NH';if(paid){b.paidMonths=b.paidMonths.filter(x=>x!==m);reverseAccountEvent(k)}else{b.paidMonths.push(m);applyAccountEvent(k,acct,-amt)}save()}
 function monthAdd(s,n){let [y,m]=s.split('-').map(Number);let d=new Date(y,m-1+n,1);return d.toISOString().slice(0,7)}
 function monthlyInstall(x){return x.total/x.months}
 function saveBankCheckin(){
@@ -391,7 +410,7 @@ function setBillActual(id,m){
 function monthPretty(m){return new Date(m+'-02').toLocaleDateString('en-US',{month:'long',year:'numeric'})}
 function incomeForMonth(m){return Number(data.incomeOverrides[m] ?? data.expectedIncome)||0}
 function cardPaid(card,m){return (data.cardPaidMonths[card]||[]).includes(m)}
-function toggleCardPaid(card,m){data.cardPaidMonths[card]=data.cardPaidMonths[card]||[];const a=data.cardPaidMonths[card],i=a.indexOf(m);if(i>=0)a.splice(i,1);else a.push(m);save()}
+function toggleCardPaid(card,m){data.cardPaidMonths[card]=data.cardPaidMonths[card]||[];const a=data.cardPaidMonths[card],i=a.indexOf(m),k=eventKey('card',card,m),amt=cardObligation(card,m),acct=data.cardPaymentAccounts[card]||'NH';if(i>=0){a.splice(i,1);reverseAccountEvent(k)}else{a.push(m);applyAccountEvent(k,acct,-amt)}save()}
 function officialCardAmount(card,m){if(m!==ym)return 0;const b=data.bankCheckin||{};return card==='NH 별다줄'?(Number(b.nhNext)||0):(Number(b.shinNext)||0)}
 function cardObligation(card,m){const o=officialCardAmount(card,m);return o>0?o:installmentForMonth(m,card)}
 function committedForMonth(m){let t=billForMonth(m);['NH 별다줄','Shinhan Mr.Life'].forEach(c=>{if(!cardPaid(c,m))t+=cardObligation(c,m)});return t}
@@ -409,9 +428,7 @@ function openCalendarDay(m,d){if(d===15){const nh=cardObligation('NH 별다줄',
 function openDayBills(m,d){const bs=data.bills.filter(x=>x.day===d&&billApplies(x,m));if(!bs.length)return;const names=bs.map((x,i)=>`${i+1}. ${x.name} · ${won(billAmountForMonth(x,m))} · ${(x.paidMonths||[]).includes(m)?'PAID':'DUE'}`).join('\n');const p=prompt(`Bills · ${monthPretty(m)}\n${names}\n\nType a bill number.`),x=bs[(+p)-1];if(!x)return;const a=prompt(`${x.name}\n1. Change this month's amount\n2. Mark ${(x.paidMonths||[]).includes(m)?'Due':'Paid'}\n\nType 1 or 2.`);if(a==='1')setBillActual(x.id,m);if(a==='2')toggleBill(x.id,m)}
 function render(){
  expectedIncome.value=data.expectedIncome?moneyText(data.expectedIncome):'';
- bankBalance.value=data.bankBalance?moneyText(data.bankBalance):'';payday.value=data.payday||25;incomeMonth.value=incomeMonth.value||ym;
- const committed=committedForMonth(ym),freeCash=(Number(data.bankBalance)||0)-committed;vBank.textContent=won(data.bankBalance);vCommitted.textContent=won(committed);vFree.textContent=won(freeCash);
- const dp=daysUntilPayday();untilPayday.textContent=`${dp} day${dp===1?'':'s'} until payday · ${freeCash>0&&dp?won(freeCash/dp)+' per day if spread evenly':'No free-money daily amount yet'}`;
+ nhBalance.value=data.accounts.NH?moneyText(data.accounts.NH):'';kbBalance.value=data.accounts.KB?moneyText(data.accounts.KB):'';payday.value=data.payday||25;incomeMonth.value=incomeMonth.value||ym;const committed=committedForMonth(ym),cash=totalCash(),freeCash=cash-committed;vNH.textContent=won(data.accounts.NH);vKB.textContent=won(data.accounts.KB);vBank.textContent=won(cash);vCommitted.textContent=won(committed);vFree.textContent=won(freeCash);const dp=daysUntilPayday(),daily=freeCash>0&&dp?freeCash/dp:0;vDaily.textContent=daily?won(daily)+'/day':'—';untilPayday.textContent=`${dp} day${dp===1?'':'s'} until payday${daily?' · '+won(daily)+' per day if spread evenly':''}`;nhCardAccount.value=data.cardPaymentAccounts['NH 별다줄']||'NH';shinCardAccount.value=data.cardPaymentAccounts['Shinhan Mr.Life']||'NH';
  incomeOverrideList.innerHTML=Object.keys(data.incomeOverrides).sort().map(m=>`<div class="tiny">${monthPretty(m)} · ${won(data.incomeOverrides[m])} <button class="secondary" onclick="delete data.incomeOverrides['${m}'];save()">Clear</button></div>`).join('')||'<div class="tiny">No month-specific overrides.</div>';
  const future=[];
  for(let k=0;k<6;k++){const m=monthAdd(ym,k),inc=incomeForMonth(m),cards=cardObligation('NH 별다줄',m)+cardObligation('Shinhan Mr.Life',m),bl=billForMonth(m),free=inc-cards-bl;future.push({m,inc,cards,bl,free})}
@@ -435,7 +452,7 @@ function render(){
  const paidBills=data.bills.filter(b=>billApplies(b,ym)&&(b.paidMonths||[]).includes(ym)).reduce((a,b)=>a+billAmountForMonth(b,ym),0);
  // available excludes credit purchases because they do not leave bank cash now.
  const cashExpenses=tx.filter(x=>x.type==='expense'&&!String(x.method).includes('Credit')).reduce((a,x)=>a+x.amount,0);
- available.textContent=won(income-cashExpenses-cardPayments-paidBills);
+ available.textContent=won(totalCash());
  incomeMetric.textContent=won(income);spentMetric.textContent=won(expenses);cardPaymentMetric.textContent=won(cardPayments);
  const orig=data.installments.reduce((a,x)=>a+x.total,0);
  const rem=data.installments.reduce((a,x)=>a+monthlyInstall(x)*(x.months-x.paid),0);
@@ -447,7 +464,7 @@ function render(){
  forecast.innerHTML=forecasts.map(([m,s])=>`<div class="row item"><span>${new Date(m+'-02').toLocaleDateString('en-US',{month:'long',year:'numeric'})}</span><b>${won(s)}</b></div>`).join('');
  transactions.innerHTML=data.transactions.length?data.transactions.slice(0,60).map(x=>`<div class="row item"><div><b>${esc(x.name)}</b><div class="tiny">${x.date} · ${x.category} · ${x.type==='income'?'Income':x.type==='cardpayment'?'Card payment':x.method}</div></div><div><span class="amount">${x.type==='income'?'+':'−'}${won(x.amount)}</span> <button class="secondary" onclick="del('transactions',${x.id})">×</button></div></div>`).join(''):'<div class="empty">No transactions yet.</div>';
  recent.innerHTML=tx.length?tx.slice(0,5).map(x=>`<div class="row item"><span>${esc(x.name)}</span><b>${x.type==='income'?'+':'−'}${won(x.amount)}</b></div>`).join(''):'<div class="empty">Nothing logged this month yet.</div>';
- billList.innerHTML=data.bills.length?data.bills.filter(b=>billApplies(b,ym)).map(b=>{let p=(b.paidMonths||[]).includes(ym),amt=billAmountForMonth(b,ym),type=b.recurring==='fixed'?'Fixed recurring':b.recurring==='variable'?'Variable recurring':'One-time';return `<div class="item"><div class="row"><div><b>${esc(b.name)}</b><div class="tiny">Due day ${b.day} · ${type}</div></div><b>${won(amt)}</b></div>${b.recurring==='variable'?`<div class="monthEdit"><div class="tiny">This month's amount can be different from the estimate.</div><button class="secondary" onclick="setBillActual(${b.id},'${ym}')">Change ${monthPretty(ym)} amount</button></div>`:''}<div style="margin-top:8px"><button class="secondary" onclick="toggleBill(${b.id})">${p?'Paid ✓':'Mark paid'}</button> <button class="secondary" onclick="del('bills',${b.id})">Delete</button></div></div>`}).join(''):'<div class="empty">No bills for this month yet.</div>';
+ billList.innerHTML=data.bills.length?data.bills.filter(b=>billApplies(b,ym)).map(b=>{let p=(b.paidMonths||[]).includes(ym),amt=billAmountForMonth(b,ym),type=b.recurring==='fixed'?'Fixed recurring':b.recurring==='variable'?'Variable recurring':'One-time';return `<div class="item"><div class="row"><div><b>${esc(b.name)}</b><div class="tiny">Due day ${b.day} · ${type} · pays from ${b.account||'NH'}</div></div><b>${won(amt)}</b></div>${b.recurring==='variable'?`<div class="monthEdit"><div class="tiny">This month's amount can be different from the estimate.</div><button class="secondary" onclick="setBillActual(${b.id},'${ym}')">Change ${monthPretty(ym)} amount</button></div>`:''}<div style="margin-top:8px"><button class="secondary" onclick="toggleBill(${b.id})">${p?'Paid ✓':'Mark paid'}</button> <button class="secondary" onclick="del('bills',${b.id})">Delete</button></div></div>`}).join(''):'<div class="empty">No bills for this month yet.</div>';
  const cats={};tx.filter(x=>x.type==='expense').forEach(x=>cats[x.category]=(cats[x.category]||0)+x.amount);
  categoryReport.innerHTML=Object.keys(cats).length?Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="row item"><span>${k}</span><b>${won(v)}</b></div>`).join(''):'<div class="empty">Add spending to see a breakdown.</div>';
  const methods={};tx.filter(x=>x.type==='expense').forEach(x=>methods[x.method]=(methods[x.method]||0)+x.amount);
@@ -504,9 +521,10 @@ function forgotPassword(){alert("Password reset is included in the design. When 
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.page).classList.add('active');b.classList.add('active');scrollTo(0,0)});
 incomeMonth.addEventListener('click',()=>openMonthPicker(incomeMonth));
-saveCashSetup.addEventListener('click',()=>{data.bankBalance=Number(rawMoney(bankBalance.value))||0;data.payday=Math.min(31,Math.max(1,+payday.value||25));save()});
+saveCashSetup.addEventListener('click',()=>{data.accounts.NH=Number(rawMoney(nhBalance.value))||0;data.accounts.KB=Number(rawMoney(kbBalance.value))||0;data.payday=Math.min(31,Math.max(1,+payday.value||25));save()});saveCardAccounts.addEventListener('click',()=>{data.cardPaymentAccounts['NH 별다줄']=nhCardAccount.value;data.cardPaymentAccounts['Shinhan Mr.Life']=shinCardAccount.value;save()});
 setIncomeOverride.addEventListener('click',()=>{const m=incomeMonth.value||ym;openMoneyPicker({value:data.incomeOverrides[m]??incomeForMonth(m),title:'Income · '+monthPretty(m),onDone:v=>{data.incomeOverrides[m]=v;save()}})});
 
+tType.addEventListener('change',()=>{tToWrap.style.display=tType.value==='transfer'?'block':'none';if(['income','refund','transfer'].includes(tType.value)&&!accountForMethod(tMethod.value))tMethod.value='NH Bank'});tToWrap.style.display=tType.value==='transfer'?'block':'none';
 bMonthWrap.style.display=bRecurring.value==='once'?'block':'none';
 render();
 </script>
